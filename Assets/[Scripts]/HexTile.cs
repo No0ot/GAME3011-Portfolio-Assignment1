@@ -21,7 +21,7 @@ public class HexTile : MonoBehaviour
 	public Color noValueColor;
 
 	public int resourceValue;
-	bool isScanned;
+	public bool isScanned = false;
 	//References
 	public GameObject selector;
 	public SpriteRenderer tileBackground;
@@ -41,7 +41,7 @@ public class HexTile : MonoBehaviour
 
     private void Update()
     {
-		UpdateTile();
+		//UpdateTile();
     }
     public Vector2 hex_to_pixel( Vector3 h)
 	{
@@ -65,49 +65,55 @@ public class HexTile : MonoBehaviour
 
     private void OnMouseDown()
     {
-		int value = 10;
-		resourceValue = value;
-		foreach(GameObject hex in neighbours)
-        {
+		GameManager.Instance.TileClicked(this);
+	}
+
+	public void UpdateTile()
+    {
+		if (isScanned)
+		{
+			switch (resourceValue)
+			{
+				case int expression when resourceValue > 5:
+					tileBackground.color = highValueColor;
+					break;
+				case int expression when resourceValue > 3 && resourceValue < 6:
+					tileBackground.color = midValueColor;
+					break;
+				case int expression when resourceValue > 1 && resourceValue < 3:
+					tileBackground.color = lowValueColor;
+					break;
+				case int expression when resourceValue <= 0:
+					tileBackground.color = noValueColor;
+					break;
+				default:
+					tileBackground.color = noValueColor;
+					break;
+			}
+		}
+	}
+
+	public void SetResourceValues(int resourceamount)
+    {
+		resourceValue = resourceamount;
+		foreach (GameObject hex in neighbours)
+		{
 			HexTile tile = hex.GetComponent<HexTile>();
-			int halfvalue = value / 2;
-			if(tile.resourceValue <= halfvalue)
+			int halfvalue = resourceamount / 2;
+			if (tile.resourceValue <= halfvalue)
 				tile.resourceValue = halfvalue;
-			
-        }
+
+		}
 		foreach (GameObject hex in neighbours)
 		{
 			HexTile tile = hex.GetComponent<HexTile>();
 			foreach (GameObject hex2 in tile.neighbours)
 			{
 				HexTile tile2 = hex2.GetComponent<HexTile>();
-				int quartervalue = value / 4;
+				int quartervalue = resourceamount / 4;
 				if (tile2.resourceValue <= quartervalue)
 					tile2.resourceValue = quartervalue;
 			}
-		}
-	}
-
-	public void UpdateTile()
-    {
-		switch (resourceValue)
-		{
-			case var expression when resourceValue > 5:
-				tileBackground.color = highValueColor;
-				break;
-			case var expression when resourceValue > 3 && resourceValue < 6:
-				tileBackground.color = midValueColor;
-				break;
-			case var expression when resourceValue > 1 && resourceValue < 3:
-				tileBackground.color = lowValueColor;
-				break;
-			case var expression when resourceValue <= 0:
-				tileBackground.color = noValueColor;
-				break;
-
-			default:
-				tileBackground.color = noValueColor;
-				break;
 		}
 	}
 }

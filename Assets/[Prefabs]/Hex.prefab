@@ -88,9 +88,11 @@ MonoBehaviour:
   - {x: -1, y: 0, z: 1}
   neighbours: []
   highValueColor: {r: 1, g: 0, b: 0.017126083, a: 1}
-  midValueColor: {r: 0.6935642, g: 0, b: 0.8207547, a: 1}
-  lowValueColor: {r: 0, g: 0.2829156, b: 1, a: 1}
+  midValueColor: {r: 1, g: 0.5231711, b: 0, a: 1}
+  lowValueColor: {r: 1, g: 0.8355076, b: 0, a: 1}
   noValueColor: {r: 1, g: 1, b: 1, a: 1}
+  resourceValue: 0
+  isScanned: 0
   selector: {fileID: 3491107020680756263}
   tileBackground: {fileID: 5529269406265578649}
 --- !u!60 &6103529640182036219

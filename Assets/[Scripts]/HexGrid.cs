@@ -11,12 +11,15 @@ public class HexGrid : MonoBehaviour
 
     public int resourceValueMin;
     public int resourceValueMax;
+
+    public int numHighValueResourceNodes;
     // Start is called before the first frame update
     void Start()
     {
         hexList = new List<GameObject>();
         BuildGrid();
         MapGrid();
+        AddResourcesToTiles();
     }
     void BuildGrid()
     {
@@ -52,6 +55,18 @@ public class HexGrid : MonoBehaviour
                     tile.neighbours.Add(temp);
                 }
             }
+        }
+    }
+
+    void AddResourcesToTiles()
+    {
+        for(int i = 0; i < numHighValueResourceNodes; i++)
+        {
+            int index = Random.Range(0, hexList.Count);
+            int value = Random.Range(resourceValueMin, resourceValueMax);
+
+            HexTile tile = hexList[index].GetComponent<HexTile>();
+            tile.SetResourceValues(value);
         }
     }
 
