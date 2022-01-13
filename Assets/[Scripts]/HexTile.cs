@@ -65,7 +65,10 @@ public class HexTile : MonoBehaviour
 
     private void OnMouseDown()
     {
-		GameManager.Instance.TileClicked(this);
+		if (!EventSystem.current.IsPointerOverGameObject())
+		{
+			GameManager.Instance.TileClicked(this);
+		}
 	}
 
 	public void UpdateTile()

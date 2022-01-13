@@ -50,3 +50,6 @@ TagManager:
   - name: UnitLayer
     uniqueID: 2543584627
     locked: 0
+  - name: UILayer
+    uniqueID: 3417134057
+    locked: 0

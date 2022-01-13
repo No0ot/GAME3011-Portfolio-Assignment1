@@ -14,10 +14,13 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
 
-    GameState gameState = GameState.SCAN;
+    public GameState gameState = GameState.SCAN;
 
     public int numScans;
     public int numExtracts;
+
+    bool scanToggle;
+    bool extractToggle;
     // Start is called before the first frame update
     void Start()
     {
@@ -60,5 +63,23 @@ public class GameManager : MonoBehaviour
     void ExtractTile(HexTile passedtile)
     {
 
+    }
+
+    public void ScanToggle(bool tf)
+    {
+        scanToggle = tf;
+        if (scanToggle)
+            gameState = GameState.SCAN;
+        else
+            gameState = GameState.NONE;
+    }
+
+    public void ExtractToggle(bool tf)
+    {
+        extractToggle = tf;
+        if (extractToggle)
+            gameState = GameState.EXTRACT;
+        else
+            gameState = GameState.NONE;
     }
 }
