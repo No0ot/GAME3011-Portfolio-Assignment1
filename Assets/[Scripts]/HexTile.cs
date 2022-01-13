@@ -60,7 +60,6 @@ public class HexTile : MonoBehaviour
     private void OnMouseExit()
     {
 		selector.SetActive(false);
-
 	}
 
     private void OnMouseDown()
@@ -77,13 +76,13 @@ public class HexTile : MonoBehaviour
 		{
 			switch (resourceValue)
 			{
-				case int expression when resourceValue > 5:
+				case int expression when resourceValue > 5000:
 					tileBackground.color = highValueColor;
 					break;
-				case int expression when resourceValue > 3 && resourceValue < 6:
+				case int expression when resourceValue > 2500 && resourceValue < 5000:
 					tileBackground.color = midValueColor;
 					break;
-				case int expression when resourceValue > 1 && resourceValue < 3:
+				case int expression when resourceValue > 0 && resourceValue < 3000:
 					tileBackground.color = lowValueColor;
 					break;
 				case int expression when resourceValue <= 0:
@@ -119,4 +118,16 @@ public class HexTile : MonoBehaviour
 			}
 		}
 	}
+
+	public void ExtractResource()
+    {
+		foreach (GameObject hex in neighbours)
+		{
+			HexTile tile = hex.GetComponent<HexTile>();
+			tile.resourceValue = tile.resourceValue / 2;
+			tile.UpdateTile();
+		}
+		resourceValue = 0;
+		UpdateTile();
+	}		
 }

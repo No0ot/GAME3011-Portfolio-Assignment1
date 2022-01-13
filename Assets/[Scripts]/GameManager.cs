@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     public int numScans;
     public int numExtracts;
+    public int score;
 
     bool scanToggle;
     bool extractToggle;
@@ -25,12 +26,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         instance = this;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        numScans = 6;
+        numExtracts = 3;
     }
 
     public void TileClicked(HexTile tile)
@@ -50,19 +47,31 @@ public class GameManager : MonoBehaviour
 
     void ScanTile(HexTile passedtile)
     {
-        passedtile.isScanned = true;
-        passedtile.UpdateTile();
-        foreach (GameObject hex in passedtile.neighbours)
+        if (numScans > 0)
         {
-            HexTile tile = hex.GetComponent<HexTile>();
-            tile.isScanned = true;
-            tile.UpdateTile();
+            passedtile.isScanned = true;
+            passedtile.UpdateTile();
+            foreach (GameObject hex in passedtile.neighbours)
+            {
+                HexTile tile = hex.GetComponent<HexTile>();
+                tile.isScanned = true;
+                tile.UpdateTile();
+            }
+            numScans--;
         }
     }
 
     void ExtractTile(HexTile passedtile)
     {
-
+        if(passedtile.isScanned)
+        {
+            if (numExtracts > 0)
+            {
+                score += passedtile.resourceValue;
+                passedtile.ExtractResource();
+                numExtracts--;
+            }
+        }
     }
 
     public void ScanToggle(bool tf)
