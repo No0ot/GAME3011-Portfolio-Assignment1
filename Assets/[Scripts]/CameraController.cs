@@ -48,13 +48,6 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    //void AdjustPosition(float xDelta, float yDelta)
-    //{
-    //    Vector3 newPosition = new Vector3(transform.position.x + (xDelta * moveSpeed), transform.position.y + (yDelta * moveSpeed), transform.position.z);
-    //
-    //    transform.position = newPosition;
-    //}
-
     void AdjustPosition(float xDelta, float yDelta)
     {
         Vector3 direction = new Vector3(xDelta, yDelta, 0.0f).normalized;
@@ -62,7 +55,6 @@ public class CameraController : MonoBehaviour
         float zoomy = zoom / maxZoom;
 
         float distance = Mathf.Lerp(moveSpeedMinZoom, moveSpeedMaxZoom, zoomy) * damping * Time.deltaTime;
-        Debug.Log(distance);
 
         Vector3 position = transform.localPosition;
         position += direction * distance;
@@ -70,10 +62,10 @@ public class CameraController : MonoBehaviour
     }
     Vector3 ClampPosition(Vector3 position)
     {
-        float xMax = 4;
+        float xMax = 8;
         position.x = Mathf.Clamp(position.x, -xMax, xMax);
 
-        float yMax = 4;
+        float yMax = 8;
         position.y = Mathf.Clamp(position.y, -yMax, yMax);
     
         return position;

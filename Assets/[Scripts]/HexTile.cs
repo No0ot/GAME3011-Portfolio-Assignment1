@@ -6,9 +6,25 @@ using UnityEngine.EventSystems;
 public class HexTile : MonoBehaviour
 {
     public Vector3 coordinates;
+	public Vector3[] directions = new Vector3[] {	new Vector3(0.0f, -1.0f, 1.0f), //
+											new Vector3(1.0f, -1.0f, 0.0f), // 
+											new Vector3(1.0f, 0.0f, -1.0f),	//
+											new Vector3(0.0f, 1.0f, -1.0f),	//
+											new Vector3(-1.0f, 1.0f, 0.0f),	//
+											new Vector3(-1.0f, 0.0f, 1.0f)};//
+
+	public List<GameObject> neighbours =  new List<GameObject>();
+
+	public Color highValueColor;
+	public Color midValueColor;
+	public Color lowValueColor;
+	public Color noValueColor;
+
+	public int resourceValue;
+	bool isScanned;
 	//References
 	public GameObject selector;
-
+	public SpriteRenderer tileBackground;
 
 
 	//Layout and Orientation stuff
@@ -16,8 +32,18 @@ public class HexTile : MonoBehaviour
 															Mathf.Sqrt(3.0f) / 3.0f, -1.0f / 3.0f, 0.0f, 2.0f / 3.0f,
 															0.5f);
 	public Layout hexLayout = new Layout(pointyOrientation, new Vector2(0.44f, 0.38f), new Vector2(0, 0));
-	//Methods
-	public Vector2 hex_to_pixel( Vector3 h)
+    //Methods
+
+    private void Start()
+    {
+		//neighbours = new List<GameObject>();
+    }
+
+    private void Update()
+    {
+		UpdateTile();
+    }
+    public Vector2 hex_to_pixel( Vector3 h)
 	{
 		Orientation M = hexLayout.orientation;
 		float x = (M.f0 * h.x + M.f1 * h.y) * hexLayout.size.x;
@@ -29,14 +55,59 @@ public class HexTile : MonoBehaviour
     {
 		
 		selector.SetActive(true);
+
 	}
     private void OnMouseExit()
     {
 		selector.SetActive(false);
+
 	}
 
     private void OnMouseDown()
     {
-        
-    }
+		int value = 10;
+		resourceValue = value;
+		foreach(GameObject hex in neighbours)
+        {
+			HexTile tile = hex.GetComponent<HexTile>();
+			int halfvalue = value / 2;
+			if(tile.resourceValue <= halfvalue)
+				tile.resourceValue = halfvalue;
+			
+        }
+		foreach (GameObject hex in neighbours)
+		{
+			HexTile tile = hex.GetComponent<HexTile>();
+			foreach (GameObject hex2 in tile.neighbours)
+			{
+				HexTile tile2 = hex2.GetComponent<HexTile>();
+				int quartervalue = value / 4;
+				if (tile2.resourceValue <= quartervalue)
+					tile2.resourceValue = quartervalue;
+			}
+		}
+	}
+
+	public void UpdateTile()
+    {
+		switch (resourceValue)
+		{
+			case var expression when resourceValue > 5:
+				tileBackground.color = highValueColor;
+				break;
+			case var expression when resourceValue > 3 && resourceValue < 6:
+				tileBackground.color = midValueColor;
+				break;
+			case var expression when resourceValue > 1 && resourceValue < 3:
+				tileBackground.color = lowValueColor;
+				break;
+			case var expression when resourceValue <= 0:
+				tileBackground.color = noValueColor;
+				break;
+
+			default:
+				tileBackground.color = noValueColor;
+				break;
+		}
+	}
 }

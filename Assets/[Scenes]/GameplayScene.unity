@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hexPrefab: {fileID: 1322765930438733096, guid: 6c404a767a8e92c49834349ba6448b51, type: 3}
-  mapRadius: 7
+  mapRadius: 10
 --- !u!4 &1801484463
 Transform:
   m_ObjectHideFlags: 0

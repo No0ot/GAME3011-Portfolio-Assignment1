@@ -8,20 +8,22 @@ public class HexGrid : MonoBehaviour
     public int mapRadius;
 
     List<GameObject> hexList;
+
+    public int resourceValueMin;
+    public int resourceValueMax;
     // Start is called before the first frame update
     void Start()
     {
         hexList = new List<GameObject>();
         BuildGrid();
+        MapGrid();
     }
     void BuildGrid()
     {
         for (int q = -mapRadius; q <= mapRadius; q++)
         {
             int r1 = Mathf.Max(-mapRadius, -q - mapRadius);
-            Debug.Log(r1);
             int r2 = Mathf.Min(mapRadius, -q + mapRadius);
-            Debug.Log(r2);
             for (int r = r1; r <= r2; r++)
             {
                 HexTile temp = Instantiate(hexPrefab);
@@ -31,5 +33,41 @@ public class HexGrid : MonoBehaviour
                 temp.gameObject.transform.position = new Vector3(position.x, position.y, 0.0f);
             }
         }
+    }
+
+    void MapGrid()
+    {
+        foreach (GameObject hex in hexList)
+        {
+            HexTile tile = hex.GetComponent<HexTile>();
+            foreach(Vector3 neighbour in tile.directions)
+            {
+                float x = tile.coordinates.x + neighbour.x;
+                float y = tile.coordinates.y + neighbour.y;
+                float z = tile.coordinates.z + neighbour.z;
+
+                if (x < mapRadius + 1.0f && x > -mapRadius - 1.0f && y < mapRadius + 1.0f && y > -mapRadius - 1.0f && z < mapRadius + 1.0f && z > -mapRadius - 1.0f)
+                {
+                    GameObject temp = returnHex(new Vector3(x, y, z));
+                    tile.neighbours.Add(temp);
+                }
+            }
+        }
+    }
+
+    GameObject returnHex(Vector3 search)
+    {
+        GameObject temp = null;
+
+        foreach (GameObject hex in hexList)
+        {
+            HexTile tile = hex.GetComponent<HexTile>();
+            if (tile.coordinates == search)
+            {
+                temp = hex;
+            }
+        }
+
+        return temp;
     }
 }
