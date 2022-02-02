@@ -127,6 +127,13 @@ public class HexTile : MonoBehaviour
 			HexTile tile = hex.GetComponent<HexTile>();
 			tile.resourceValue = tile.resourceValue / 2;
 			tile.UpdateTile();
+			foreach (GameObject hex2 in tile.neighbours)
+			{
+				HexTile tile2 = hex2.GetComponent<HexTile>();
+				int quartervalue = tile2.resourceValue / 2;
+				tile2.resourceValue = quartervalue;
+				tile2.UpdateTile();
+			}
 		}
 		resourceValue = 0;
 		UpdateTile();
