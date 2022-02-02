@@ -83,10 +83,10 @@ public class HexTile : MonoBehaviour
 				case int expression when resourceValue > 2500 && resourceValue < 5000:
 					tileBackground.color = midValueColor;
 					break;
-				case int expression when resourceValue > 0 && resourceValue < 3000:
+				case int expression when resourceValue > 1000 && resourceValue < 2500:
 					tileBackground.color = lowValueColor;
 					break;
-				case int expression when resourceValue <= 0:
+				case int expression when resourceValue <= 1000:
 					tileBackground.color = noValueColor;
 					break;
 				default:
