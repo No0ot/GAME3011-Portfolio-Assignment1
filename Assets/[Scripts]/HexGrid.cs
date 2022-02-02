@@ -1,3 +1,7 @@
+//
+// Based off code from https://www.redblobgames.com/grids/hexagons/
+//
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
