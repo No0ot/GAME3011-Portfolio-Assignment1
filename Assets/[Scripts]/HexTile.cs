@@ -37,6 +37,7 @@ public class HexTile : MonoBehaviour
     private void Start()
     {
 		//neighbours = new List<GameObject>();
+		//isScanned = true;
     }
 
     private void Update()

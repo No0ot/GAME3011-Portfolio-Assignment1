@@ -14,13 +14,24 @@ public class HexGrid : MonoBehaviour
 
     public int numHighValueResourceNodes;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         hexList = new List<GameObject>();
         BuildGrid();
         MapGrid();
-        AddResourcesToTiles();
     }
+
+    private void OnEnable()
+    {
+        AddResourcesToTiles();
+        
+    }
+
+    private void OnDisable()
+    {
+        ResetGrid();
+    }
+
     void BuildGrid()
     {
         for (int q = -mapRadius; q <= mapRadius; q++)
@@ -29,7 +40,7 @@ public class HexGrid : MonoBehaviour
             int r2 = Mathf.Min(mapRadius, -q + mapRadius);
             for (int r = r1; r <= r2; r++)
             {
-                HexTile temp = Instantiate(hexPrefab);
+                HexTile temp = Instantiate(hexPrefab, this.transform);
                 temp.coordinates = new Vector3(q, r, -q - r);
                 hexList.Add(temp.gameObject);
                 Vector2 position = temp.hex_to_pixel(temp.coordinates);
@@ -84,5 +95,16 @@ public class HexGrid : MonoBehaviour
         }
 
         return temp;
+    }
+
+    void ResetGrid()
+    {
+        foreach (GameObject hex in hexList)
+        {
+            HexTile tile = hex.GetComponent<HexTile>();
+            tile.resourceValue = 0;
+            tile.UpdateTile();
+            tile.isScanned = false;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public enum GameState
 {
@@ -22,10 +23,19 @@ public class GameManager : MonoBehaviour
 
     bool scanToggle;
     bool extractToggle;
+
+    public GameObject endPanel;
+    public TMP_Text finalScoreText;
+
     // Start is called before the first frame update
     void Start()
     {
         instance = this;
+       
+    }
+
+    private void OnEnable()
+    {
         numScans = 6;
         numExtracts = 3;
     }
@@ -70,7 +80,14 @@ public class GameManager : MonoBehaviour
                 score += passedtile.resourceValue;
                 passedtile.ExtractResource();
                 numExtracts--;
+                if(numExtracts == 0)
+                {
+                    endPanel.SetActive(true);
+                    finalScoreText.text = "Final Score: " + score;
+                    score = 0;
+                }
             }
+            
         }
     }
 
